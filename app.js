@@ -12,6 +12,7 @@ var spotify = new Spotify(keys.spotify);
 
 const Query = function() {
   this.findTrack = function(song) {
+
     spotify.search(
       {
         type: "track",
@@ -19,28 +20,27 @@ const Query = function() {
         limit: 1
       },
       function(err, data) {
-        if (err) {
-          return console.log("error: " + err);
-        }
         const jsonData = data.tracks.items[0]
 
         const songData = [
           "Song title is " + jsonData.name,
-          "by " + jsonData.artist[0].name,
+          "by " + jsonData.artists[0].name,
           "From the album: " + jsonData.album.name,
-          "Listen to a clip here: " + jsonData.preview_url
+          "Listen to a clip here: " + jsonData.album.external_urls.spotify
         ].join("\n\n")
 
-        if (!song) {
-          song = "the Sign";
+        console.log('-----------------------------------------')
+        console.log(songData)
+
+        if (err) {
+          return console.log("error: " + err);
         }
 
-        fs.appendFile("log.txt", repsonse, function(err) {
+        fs.appendFile("log.txt", songData + divider, function(err) {
           if (err) throw err;
-          console.log(err);
+          // console.log(songData);
         });
-      }
-    );
+      });
   };
 
   //   ********************** OMDB SEARCH
